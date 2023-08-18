@@ -14,7 +14,7 @@ java {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId = 'base-lib'
+            artifactId = 'halowing-base-lib'
             from components.java
             versionMapping {
             	usage('java-api') {
