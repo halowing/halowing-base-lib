@@ -7,7 +7,7 @@ public class SimpleApplicationException extends RuntimeException implements Appl
 
 	private static final long serialVersionUID = -8732186396685769772L;
 	
-	private static ResourceBundle RESOURCE_BUNDLE;
+	private static ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages/error", Locale.getDefault());
 	
 	private final String errorCode ;
 	private final String[] args ;
@@ -35,14 +35,10 @@ public class SimpleApplicationException extends RuntimeException implements Appl
 		this.args = e.getArgs();
 	}
 	
-	
-	private static String getLocaleMessage(String code, String[] args) {
+	protected static String getLocaleMessage(String code, String[] args) {
 		
 		if(code == null || code.trim().isEmpty())
 			return "";
-		
-		if(RESOURCE_BUNDLE == null)
-			RESOURCE_BUNDLE = ResourceBundle.getBundle("message", Locale.getDefault());
 		
 		String message = RESOURCE_BUNDLE.getString(code);
 		
@@ -63,16 +59,15 @@ public class SimpleApplicationException extends RuntimeException implements Appl
 	public String[] getArgs() {
 		return args;
 	}
-
-
-	@Override
-	public void setResourceBundle(ResourceBundle resourceBundle) {
-		SimpleApplicationException.RESOURCE_BUNDLE = resourceBundle;
-	}
-	
 	
 	@Override
 	public String getLocalizedMessage() {
+		return getLocaleMessage(this.errorCode, this.args);
+	}
+	
+	@Override
+	public String getLocalizedMessage(Locale locale) {
+		RESOURCE_BUNDLE = ResourceBundle.getBundle("messages/error", locale);
 		return getLocaleMessage(this.errorCode, this.args);
 	}
 }
