@@ -3,27 +3,33 @@ package com.halowing.lib.exception;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class SimpleApplicationException extends RuntimeException implements ApplicationException {
+public class SimpleApplicationException extends ApplicationException {
 
 	private static final long serialVersionUID = -8732186396685769772L;
 	
-	private static ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("messages/error", Locale.getDefault());
+	private static final String MESSAGE_RESOURCE = "messages/messages";
+	
+	private static final ResourceBundle RESOURCE_BUNDLE_US     = ResourceBundle.getBundle(MESSAGE_RESOURCE, Locale.US);
+	private static final ResourceBundle LOCALE_RESOURCE_BUNDLE = ResourceBundle.getBundle(MESSAGE_RESOURCE, Locale.getDefault());
 	
 	private final String errorCode ;
 	private final String[] args ;
 	
+	
 	public SimpleApplicationException(Throwable e, String errorCode, String...args ) {
-		super(getLocaleMessage(errorCode, args), e );
+		super(getMessage(errorCode, args), e );
 		this.errorCode = errorCode;
 		this.args = args;
 	}
 	
 	public SimpleApplicationException(Throwable e) {
-		this(e,null);
+		super( e );
+		this.errorCode = null;
+		this.args = null;
 	}
 	
 	public SimpleApplicationException(String errorCode, String...args) {
-		super(getLocaleMessage(errorCode, args));
+		super(getMessage(errorCode, args));
 		this.errorCode = errorCode;
 		this.args = args;
 	}
@@ -35,20 +41,9 @@ public class SimpleApplicationException extends RuntimeException implements Appl
 		this.args = e.getArgs();
 	}
 	
-	protected static String getLocaleMessage(String code, String[] args) {
-		
-		if(code == null || code.trim().isEmpty())
-			return "";
-		
-		String message = RESOURCE_BUNDLE.getString(code);
-		
-		for(int i=0 ; args != null && i < args.length; i++) {
-			message = message.replace("{}", args[i]);
-		}
-		
-		return message;
+	protected static String getMessage( String errorCode, String[] args) {
+		return ApplicationException.getLocaleMessage(RESOURCE_BUNDLE_US, null, errorCode, args);
 	}
-	
 	
 	@Override
 	public String getErrorCode() {
@@ -60,14 +55,28 @@ public class SimpleApplicationException extends RuntimeException implements Appl
 		return args;
 	}
 	
+	
 	@Override
 	public String getLocalizedMessage() {
-		return getLocaleMessage(this.errorCode, this.args);
+		
+		try {
+			return ApplicationException.getLocaleMessage(LOCALE_RESOURCE_BUNDLE, null, this.errorCode, this.args);
+		} catch (Exception e) {
+			return super.getLocalizedMessage();
+		}
+		
+		
 	}
 	
 	@Override
 	public String getLocalizedMessage(Locale locale) {
-		RESOURCE_BUNDLE = ResourceBundle.getBundle("messages/error", locale);
-		return getLocaleMessage(this.errorCode, this.args);
+		
+		try {
+			ResourceBundle bundle = ResourceBundle.getBundle(MESSAGE_RESOURCE, locale);
+			return ApplicationException.getLocaleMessage(bundle, getCause(), this.errorCode, this.args);
+		} catch (Exception e) {
+			return super.getLocalizedMessage();
+		}
+		
 	}
 }
