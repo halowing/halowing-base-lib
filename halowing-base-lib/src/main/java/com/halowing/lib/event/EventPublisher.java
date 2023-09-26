@@ -1,8 +1,8 @@
 package com.halowing.lib.event;
 
-public interface EventPublisher {
+public interface EventPublisher<T> {
 
-	void publish(String message);
+	void publish(T message);
 	
 	String getTopic();
 	

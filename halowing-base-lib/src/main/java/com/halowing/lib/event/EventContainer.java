@@ -4,6 +4,6 @@ public interface EventContainer<T> {
 
 	void subscribe(EventSubscriber<T> subscriber);
 	
-	EventPublisher getPublisher(String topic);
+	EventPublisher<T> getPublisher(String topic);
 	
 }
