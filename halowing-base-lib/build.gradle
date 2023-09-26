@@ -13,9 +13,9 @@ java {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        gpr(MavenPublication) {
             artifactId = 'halowing-base-lib'
-            from components.java
+            from(components.java)
             versionMapping {
             	usage('java-api') {
             		fromResolutionOf('runtimeClasspath')
@@ -43,13 +43,18 @@ publishing {
         }
     }
     
-//    repositories {
-//   	maven {
-//    		def releasesRepoUrl = layout.buildDirectory.dir('repos/releases')
-//    		def snapshotsRepoUrl = layout.buildDirectory.dir('repos/snapshots')
-//    		url = version.endWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl 
-//    	}
-//    }
+    repositories {
+   		maven {
+   			name = "GitHubPacakges"
+    		def releasesRepoUrl = layout.buildDirectory.dir('repos/releases')
+    		def snapshotsRepoUrl = layout.buildDirectory.dir('repos/snapshots')
+    		url = uri("https://maven.pkg.github.com/halowing/halowing-base-lib" + version.endWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl) 
+    		credentials {
+    			username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+    			password = project.findProperty("gpr.key")  ?: System.getenv("TOKEN")
+    		}
+    	}
+    }
 }
 
 repositories {
