@@ -121,7 +121,7 @@ public class StringUtility {
 	 * @param str	: 입력값
 	 * @return		: String str.trim() 
 	 */
-	public String requireNonBlink(String str) {
+	public static String requireNonBlink(String str) {
 		if(str == null )
 			throw new DefaultApplicationException("input parameter is null.");
 		
