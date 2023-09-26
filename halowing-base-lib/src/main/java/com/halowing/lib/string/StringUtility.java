@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.halowing.lib.exception.DefaultApplicationException;
+
 public class StringUtility {
 
 	/**
@@ -111,5 +113,23 @@ public class StringUtility {
 			if(fw != null)
 				fw.close();
 		}
+	}
+	
+	/**
+	 * 입력된 파라미터가 null 이거나 blink string이면 에러 송출
+	 * trim()된 string을 반환.
+	 * @param str	: 입력값
+	 * @return		: String str.trim() 
+	 */
+	public String requireNonBlink(String str) {
+		if(str == null )
+			throw new DefaultApplicationException("input parameter is null.");
+		
+		str = str.trim();
+		
+		if(str.isEmpty())
+			throw new DefaultApplicationException("input parameter is a blink string.");
+		
+		return str;
 	}
 }
