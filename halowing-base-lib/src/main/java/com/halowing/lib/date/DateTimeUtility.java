@@ -103,12 +103,17 @@ public class DateTimeUtility {
 	}
 
 	/**
-	 * 현재 시간을 JSON_DATE_TIME_FORMATTER 형식으로 출력함.
+	 * 현재 시간을 "yyyy-MM-dd'T'HH:mm:ss" 형식으로 출력함.
 	 * 
 	 * @return
 	 */
 	public static String getLocalSysdate() {
 		
 		return LocalDateTime.now().format(JSON_DATE_TIME_FORMATTER);
+	}
+	
+	public static String getLocalSysdate(DateTimeFormatter dateTimeFormatter) {
+		
+		return LocalDateTime.now().format(dateTimeFormatter);
 	}
 }
