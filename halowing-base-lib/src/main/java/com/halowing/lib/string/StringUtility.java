@@ -62,6 +62,9 @@ public class StringUtility {
 	
 	/**
 	 * 입력 문자열에서 hash tag가 있는 문자들을 추출 
+	 * 
+	 * ex: "#가고싶은곳 은 어디인가요. #제주도, #경주, #하와이 ..."
+	 * 
 	 * @param searchWord
 	 * @return
 	 */
@@ -129,6 +132,18 @@ public class StringUtility {
 		
 		if(str.isEmpty())
 			throw new DefaultApplicationException("input parameter is a blink string.");
+		
+		return str;
+	}
+	
+	/**
+	 * 입력 변수가 null 이거나 space 문자이면 return blink(""). 그렇지 않으면 input.trim()을 반환.
+	 * @param str
+	 * @return
+	 */
+	public static String ifNullToBlink(String str) {
+		
+		str = str == null ? "" : str.trim();
 		
 		return str;
 	}
