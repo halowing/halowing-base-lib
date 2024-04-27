@@ -52,7 +52,7 @@ public abstract class ApplicationException extends RuntimeException {
 			String message = resourceBundle.getString(code);
 			
 			for(int i=0 ; args != null && i < args.length; i++) {
-				message = message.replaceAll("{"+i+"}", args[i]);
+				message = message.replaceAll("\\{"+i+"\\}", args[i]);
 			}
 			
 			return message;

@@ -3,7 +3,7 @@ package com.halowing.lib.exception;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class SimpleApplicationException extends ApplicationException {
+public final class SimpleApplicationException extends ApplicationException {
 
 	private static final long serialVersionUID = -8732186396685769772L;
 	
