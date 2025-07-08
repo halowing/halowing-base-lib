@@ -7,7 +7,9 @@ group = 'com.halowing.lib'
 version = '0.0.4-SNAPSHOT'
 
 java {
-	sourceCompatibility = '17'
+	toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 	withSourcesJar()
 }
 
@@ -29,8 +31,10 @@ publishing {
             	description = 'Utilities for Application maded by halowing. '
             	url = 'https://github.com/halowing/halowing-base-lib'
             	licenses{
-            		name = 'Apache License, Version 2.0'
-                  	url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            	    license { // 'license' 블록으로 감싸야 합니다.
+				        name = 'Apache License, Version 2.0'
+				        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+				    }
             	}
             	developers {
             		developer {
